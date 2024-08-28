@@ -13,9 +13,6 @@ import org.pitest.classpath.DefaultCodeSource;
 import org.pitest.classpath.PathFilter;
 import org.pitest.classpath.ProjectClassPaths;
 import org.pitest.mutationtest.config.PluginServices;
-import org.pitest.mutationtest.config.ReportOptions;
-import org.pitest.mutationtest.verify.BuildMessage;
-import org.pitest.mutationtest.verify.BuildVerifierArguments;
 import org.pitest.mutationtest.verify.BuildVerifierFactory;
 
 import java.io.ByteArrayInputStream;
@@ -51,8 +48,8 @@ public class BuildVerifierVerifier {
         factoryIsOnChain(factory.getClass());
     }
 
-    public ListAssert<BuildMessage> messages() {
-        return assertThat(factory.create(new BuildVerifierArguments(codeSource, new ReportOptions())).verifyBuild());
+    public ListAssert<String> issues() {
+        return assertThat(factory.create(codeSource).verify());
     }
 
     public BuildVerifierVerifier withCodeSource(CodeSource source) {

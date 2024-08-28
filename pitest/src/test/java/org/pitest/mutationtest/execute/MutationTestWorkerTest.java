@@ -3,7 +3,6 @@ package org.pitest.mutationtest.execute;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.pitest.mutationtest.DetectionStatus.NON_VIABLE;
 import static org.pitest.mutationtest.LocationMother.aLocation;
 import static org.pitest.mutationtest.LocationMother.aMutationId;
 
@@ -81,7 +80,7 @@ public class MutationTestWorkerTest {
     final Collection<MutationDetails> range = Arrays.asList(mutantOne);
     this.testee.run(range, this.reporter, this.testSource);
     verify(this.reporter).report(mutantOne.getId(),
-        MutationStatusTestPair.notAnalysed(0, DetectionStatus.NO_COVERAGE, Collections.emptyList()));
+        MutationStatusTestPair.notAnalysed(0, DetectionStatus.NO_COVERAGE));
   }
 
   @Test
@@ -95,7 +94,9 @@ public class MutationTestWorkerTest {
         this.hotswapper.insertClass(any(ClassName.class), any(ClassLoader.class),
             any(byte[].class))).thenReturn(true);
     this.testee.run(range, this.reporter, this.testSource);
-    verify(this.reporter).describe(mutantOne.getId());
+    verify(this.reporter).report(mutantOne.getId(),
+        new MutationStatusTestPair(1, DetectionStatus.SURVIVED, new ArrayList<>(),  new ArrayList<>()));
+
   }
 
   @Test
@@ -109,9 +110,8 @@ public class MutationTestWorkerTest {
         this.hotswapper.insertClass(any(ClassName.class), any(ClassLoader.class),
             any(byte[].class))).thenReturn(false);
     this.testee.run(range, this.reporter, this.testSource);
-    verify(this.reporter).describe(mutantOne.getId());
     verify(this.reporter).report(mutantOne.getId(),
-        MutationStatusTestPair.notAnalysed(0, NON_VIABLE,Collections.singletonList("atest")));
+        MutationStatusTestPair.notAnalysed(0, DetectionStatus.NON_VIABLE));
   }
 
   @Test

@@ -26,7 +26,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-		<asm.version>9.7</asm.version>
+		<asm.version>9.6</asm.version>
 		<hamcrest.version>1.3</hamcrest.version>
 		<junit.version>4.13.1</junit.version>
 		<surefire.version>2.18.1</surefire.version> <!-- [2.19, 3.0.0-M7] seem to cause ASM-related test failures -->
@@ -322,7 +322,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-shade-plugin</artifactId>
-					<version>3.5.3</version>
+					<version>3.2.1</version>
 				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>

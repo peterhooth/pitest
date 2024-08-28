@@ -18,7 +18,6 @@ import org.pitest.mutationtest.config.SettingsFactory;
 import org.pitest.mutationtest.incremental.NullHistory;
 import org.pitest.mutationtest.incremental.NullWriterFactory;
 import org.pitest.mutationtest.incremental.WriterFactory;
-import org.pitest.mutationtest.verify.BuildVerifierArguments;
 import org.pitest.plugin.Feature;
 import org.pitest.plugin.FeatureParameter;
 import org.pitest.plugin.FeatureParser;
@@ -128,7 +127,7 @@ public class EntryPoint {
     final MutationStrategies strategies = new MutationStrategies(
         settings.createEngine(), history, coverageDatabase, reportFactory, settings.getResultInterceptor().add(new HistoryResultInterceptor(history)),
         settings.createCoverageTransformer(code),
-            reportOutput, settings.createVerifier().create(new BuildVerifierArguments(code, data)));
+            reportOutput, settings.createVerifier().create(code));
 
     final MutationCoverage report = new MutationCoverage(strategies, baseDir,
         code, data, settings, timings);

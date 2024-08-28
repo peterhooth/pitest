@@ -29,9 +29,9 @@ class SpringVerifier implements BuildVerifier {
     }
 
     @Override
-    public List<BuildMessage> verifyBuild() {
+    public List<String> verify() {
         if (springIsOnClassPath() && !springPluginIsPresent()) {
-            return asList(new BuildMessage("Project uses Spring, but the Arcmutate Spring plugin is not present.", "https://docs.arcmutate.com/docs/spring.html", 4));
+            return asList("Project uses Spring, but the Arcmutate Spring plugin is not present (https://docs.arcmutate.com/docs/spring.html)");
         }
 
         return Collections.emptyList();

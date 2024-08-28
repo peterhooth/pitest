@@ -33,7 +33,7 @@ public class DefaultBuildVerifier implements BuildVerifier {
   }
 
   @Override
-  public List<BuildMessage> verifyBuild() {
+  public List<String> verify() {
 
     // check we have at least one class that is not an interface
     // otherwise our checks will fire on an empty project

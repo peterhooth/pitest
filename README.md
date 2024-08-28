@@ -8,29 +8,6 @@ Read all about it at https://pitest.org
 
 ## Releases
 
-## 1.16.1
-
-* #1329 Prevent version clashes with aggregate goal when plugins use jackson
-
-## 1.16.0
-
-* #1311 - Include unmodifiable collections stored directly to fields in the `+funmodifiablecollection` filter for defensive code
-* #1319 - Use environment variables from surefire config
-* #1322 - Automatically add -ea to enable assertions
-* #1321 - Expand BuildVerifier interface
-
-Api change in #1321 is backwards compatible, but plugins written against 1.16.0 may not work with earlier versions.
-
-## 1.15.8
-
-* #1310 Filter mutations to Collections.unmodifiable*
-* #1309 Replace fields in argLines imported from surefire config
-* #1308 Bump maven vcs versions
-
-The filtering for #1310 is off by default. To activate it add the filter string `+funmodifiablecollection`.
-
-1309 adds a new maven property `parseSurefireArgLine`. This is set to true by default, but surefire argline parsing can now be disabled by setting it to false.
-
 ## 1.15.7
 
 #1305 Coverage not recorded for code in packages name com.sun*

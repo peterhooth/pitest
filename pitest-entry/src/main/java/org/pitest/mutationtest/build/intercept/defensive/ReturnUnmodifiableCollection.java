@@ -24,17 +24,16 @@ import static org.pitest.bytecode.analysis.InstructionMatchers.methodCallTo;
 import static org.pitest.bytecode.analysis.InstructionMatchers.notAnInstruction;
 import static org.pitest.bytecode.analysis.OpcodeMatchers.ARETURN;
 import static org.pitest.bytecode.analysis.OpcodeMatchers.INVOKESTATIC;
-import static org.pitest.bytecode.analysis.OpcodeMatchers.PUTFIELD;
 import static org.pitest.sequence.Result.result;
 
-public class UnmodifiableCollections extends RegionInterceptor {
+public class ReturnUnmodifiableCollection extends RegionInterceptor {
 
     static final Slot<AbstractInsnNode> MUTATED_INSTRUCTION = Slot.create(AbstractInsnNode.class);
 
     static final SequenceMatcher<AbstractInsnNode> DEFENSIVE_RETURN = QueryStart
             .any(AbstractInsnNode.class)
             .then(INVOKESTATIC.and(methodCallTo(ClassName.fromClass(Collections.class), n -> n.startsWith("unmodifiable"))).and(store(MUTATED_INSTRUCTION.write())))
-            .then(ARETURN.or(PUTFIELD))
+            .then(ARETURN)
             .zeroOrMore(QueryStart.match(anyInstruction()))
             .compile(QueryParams.params(AbstractInsnNode.class)
                     .withIgnores(notAnInstruction().or(isA(LabelNode.class)))

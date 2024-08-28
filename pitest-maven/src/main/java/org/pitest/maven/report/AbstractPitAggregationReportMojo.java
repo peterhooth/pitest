@@ -75,10 +75,6 @@ abstract class AbstractPitAggregationReportMojo extends PitReportMojo {
     try {
       final Collection<MavenProject> allProjects = findDependencies();
 
-      if (allProjects.isEmpty()) {
-        throw new IllegalStateException("No projects found. Did you call the aggregate goal directly? It must be bound to a lifecycle phase");
-      }
-
       final ReportAggregator.Builder reportAggregationBuilder = ReportAggregator
           .builder();
 

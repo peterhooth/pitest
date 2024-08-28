@@ -14,23 +14,8 @@
  */
 package org.pitest.mutationtest.report.xml;
 
-import java.io.IOException;
-import java.io.Writer;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
-import org.apache.commons.text.StringEscapeUtils;
-import org.pitest.mutationtest.ClassMutationResults;
-import org.pitest.mutationtest.MutationResult;
-import org.pitest.mutationtest.MutationResultListener;
-import org.pitest.mutationtest.engine.MutationDetails;
-import org.pitest.util.ResultOutputStrategy;
-import org.pitest.util.Unchecked;
-
 import static org.pitest.mutationtest.report.xml.Tag.block;
 import static org.pitest.mutationtest.report.xml.Tag.blocks;
-import static org.pitest.mutationtest.report.xml.Tag.coveringTests;
 import static org.pitest.mutationtest.report.xml.Tag.description;
 import static org.pitest.mutationtest.report.xml.Tag.index;
 import static org.pitest.mutationtest.report.xml.Tag.indexes;
@@ -45,8 +30,22 @@ import static org.pitest.mutationtest.report.xml.Tag.mutator;
 import static org.pitest.mutationtest.report.xml.Tag.sourceFile;
 import static org.pitest.mutationtest.report.xml.Tag.succeedingTests;
 
+import java.io.IOException;
+import java.io.Writer;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import org.apache.commons.text.StringEscapeUtils;
+import org.pitest.mutationtest.ClassMutationResults;
+import org.pitest.mutationtest.MutationResult;
+import org.pitest.mutationtest.MutationResultListener;
+import org.pitest.mutationtest.engine.MutationDetails;
+import org.pitest.util.ResultOutputStrategy;
+import org.pitest.util.Unchecked;
+
 enum Tag {
-  mutation, sourceFile, mutatedClass, mutatedMethod, methodDescription, lineNumber, mutator, indexes, index, killingTest, killingTests, succeedingTests, coveringTests, description, blocks, block
+  mutation, sourceFile, mutatedClass, mutatedMethod, methodDescription, lineNumber, mutator, indexes, index, killingTest, killingTests, succeedingTests, description, blocks, block
 }
 
 public class XMLReportListener implements MutationResultListener {
@@ -102,8 +101,6 @@ public class XMLReportListener implements MutationResultListener {
             createTestDesc(mutation.getKillingTests()), killingTests)
         + makeNodeWhenConditionSatisfied(fullMutationMatrix,
             createTestDesc(mutation.getSucceedingTests()), succeedingTests)
-        + makeNodeWhenConditionSatisfied(fullMutationMatrix,
-            createTestDesc(mutation.getCoveringTests()), coveringTests)
         + makeNode(clean(details.getDescription()), description);
   }
 

@@ -3,7 +3,6 @@ package org.pitest.mutationtest.report.html;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
@@ -28,7 +27,7 @@ public class ResultComparatorTest {
   }
 
   private MutationResult make(final DetectionStatus status) {
-    return new MutationResult(null, MutationStatusTestPair.notAnalysed(0, status, Collections.emptyList()));
+    return new MutationResult(null, MutationStatusTestPair.notAnalysed(0, status));
   }
 
 }

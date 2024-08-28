@@ -128,7 +128,7 @@ public class MutationTestWorker {
     if ((relevantTests == null) || relevantTests.isEmpty()) {
       LOG.info(() -> "No test coverage for mutation " + mutationId + " in "
           + mutatedClass.getDetails().getMethod());
-      mutationDetected =  MutationStatusTestPair.notAnalysed(0, DetectionStatus.RUN_ERROR, Collections.emptyList());
+      mutationDetected =  MutationStatusTestPair.notAnalysed(0, DetectionStatus.RUN_ERROR);
     } else {
       mutationDetected = handleCoveredMutation(mutationId, mutatedClass,
           relevantTests);
@@ -160,9 +160,7 @@ public class MutationTestWorker {
     } else {
       LOG.warning("Mutation " + mutationId + " was not viable ");
       mutationDetected = MutationStatusTestPair.notAnalysed(0,
-          DetectionStatus.NON_VIABLE, relevantTests.stream()
-              .map(t -> t.getDescription().getQualifiedName())
-              .collect(Collectors.toList()));
+          DetectionStatus.NON_VIABLE);
     }
     return mutationDetected;
   }
@@ -201,7 +199,7 @@ public class MutationTestWorker {
         pit.run(c, createEarlyExitTestGroup(tests));
       }
 
-      return createStatusTestPair(listener, tests);
+      return createStatusTestPair(listener);
     } catch (final Exception ex) {
       throw translateCheckedException(ex);
     }
@@ -209,16 +207,14 @@ public class MutationTestWorker {
   }
 
   private MutationStatusTestPair createStatusTestPair(
-      final CheckTestHasFailedResultListener listener, List<TestUnit> relevantTests) {
+      final CheckTestHasFailedResultListener listener) {
     List<String> failingTests = listener.getFailingTests().stream()
         .map(Description::getQualifiedName).collect(Collectors.toList());
     List<String> succeedingTests = listener.getSucceedingTests().stream()
         .map(Description::getQualifiedName).collect(Collectors.toList());
-    List<String> coveredTests = relevantTests.stream()
-        .map(t -> t.getDescription().getQualifiedName()).collect(Collectors.toList());
 
     return new MutationStatusTestPair(listener.getNumberOfTestsRun(),
-        listener.status(), failingTests, succeedingTests, coveredTests);
+        listener.status(), failingTests, succeedingTests);
   }
 
   private List<TestUnit> createEarlyExitTestGroup(final List<TestUnit> tests) {

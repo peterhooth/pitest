@@ -20,8 +20,6 @@ import org.junit.Test;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 
-import java.util.Collections;
-
 public class MutationResultTest {
 
   private MutationResult testee;
@@ -36,14 +34,14 @@ public class MutationResultTest {
   @Test
   public void shouldNoneWhenNoKillingTest() {
     this.testee = new MutationResult(null, MutationStatusTestPair.notAnalysed(1,
-        DetectionStatus.TIMED_OUT, Collections.emptyList()));
+        DetectionStatus.TIMED_OUT));
     assertEquals("none", this.testee.getKillingTestDescription());
   }
 
   @Test
   public void shouldReturnStatusDescription() {
     this.testee = new MutationResult(null, MutationStatusTestPair.notAnalysed(1,
-        DetectionStatus.TIMED_OUT,Collections.emptyList()));
+        DetectionStatus.TIMED_OUT));
     assertEquals("TIMED_OUT", this.testee.getStatusDescription());
   }
 

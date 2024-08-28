@@ -9,7 +9,6 @@ import java.util.List;
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
 
-import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -36,8 +35,6 @@ public class SurefireConfigConverter {
     convertExcludes(option, configuration);
     convertGroups(option, configuration);
     convertTestFailureIgnore(option, configuration);
-    convertEnvironmentVariables(option, configuration);
-
     if (parseArgLine) {
       convertArgLine(option, configuration);
     }
@@ -72,7 +69,6 @@ public class SurefireConfigConverter {
     List<Predicate<String>> excludes = new ArrayList<>();
     List<Predicate<String>> surefireExcludes =
             extract("excludes", configuration).stream()
-                            .map(p -> p.value)
                             .filter(Objects::nonNull)
                             .map(this::filenameToClassFilter)
                             .collect(Collectors.toList());
@@ -90,23 +86,17 @@ public class SurefireConfigConverter {
   }
 
 
-  private void convertEnvironmentVariables(ReportOptions option, Xpp3Dom configuration) {
-    Map<String, String> environmentVariables = extract("environmentVariables", configuration).stream()
-            .collect(Collectors.toMap(p -> p.name, p -> p.value));
-    option.getEnvironmentVariables().putAll(environmentVariables);
-  }
-
   private Predicate<String> filenameToClassFilter(String filename) {
     return new Glob(filename.replace(".java", "").replace("/", "."));
   }
 
-  private List<Pair> extract(String childname, Xpp3Dom config) {
+  private List<String> extract(String childname, Xpp3Dom config) {
     final Xpp3Dom subelement = config.getChild(childname);
     if (subelement != null) {
-      List<Pair> result = new LinkedList<>();
+      List<String> result = new LinkedList<>();
       final Xpp3Dom[] children = subelement.getChildren();
       for (Xpp3Dom child : children) {
-        result.add(new Pair(child.getName(), child.getValue()));
+        result.add(child.getValue());
       }
       return result;
     }
@@ -120,14 +110,4 @@ public class SurefireConfigConverter {
       option.setSkipFailingTests(Boolean.parseBoolean(testFailureIgnore.getValue()));
     }
   }
-}
-
-class Pair {
-  final String name;
-  final String value;
-
-    Pair(String name, String value) {
-        this.name = name;
-        this.value = value;
-    }
 }

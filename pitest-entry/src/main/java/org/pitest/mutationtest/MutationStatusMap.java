@@ -14,6 +14,7 @@
  */
 package org.pitest.mutationtest;
 
+import static org.pitest.functional.prelude.Prelude.putToMap;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -26,7 +27,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import org.pitest.coverage.TestInfo;
 import org.pitest.functional.FCollection;
 import org.pitest.mutationtest.engine.MutationDetails;
 
@@ -46,11 +46,7 @@ public class MutationStatusMap {
 
   public void setStatusForMutations(
       final Collection<MutationDetails> mutations, final DetectionStatus status) {
-      mutations.forEach(mutationDetails -> {
-        List<String> coveringTests = mutationDetails.getTestsInOrder().stream().map(TestInfo::getName).collect(Collectors.toList());
-        MutationStatusTestPair pair = MutationStatusTestPair.notAnalysed(0, status, coveringTests);
-        mutationMap.put(mutationDetails, pair);
-      });
+    mutations.forEach(putToMap(this.mutationMap, MutationStatusTestPair.notAnalysed(0, status)));
   }
 
   public List<MutationResult> createMutationResults() {

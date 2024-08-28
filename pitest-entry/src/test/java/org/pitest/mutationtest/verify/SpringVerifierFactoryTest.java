@@ -20,7 +20,7 @@ public class SpringVerifierFactoryTest {
     @Test
     public void doesNotDisplayMessageWhenSpringNotPresent() {
         v.withCodeSource(codeSourceReturning(ClassName.fromString("not.relevant.Foo")))
-                .messages()
+                .issues()
                 .isEmpty();
     }
 
@@ -35,7 +35,7 @@ public class SpringVerifierFactoryTest {
         clientCode.rawNode().sourceFile = "Foo.kt";
 
         v.withCodeSource(codeSourceForClasses(springMarker, clientCode))
-                .messages()
+                .issues()
                 .isNotEmpty();
     }
 
@@ -52,7 +52,7 @@ public class SpringVerifierFactoryTest {
         clientCode.rawNode().sourceFile = "Foo.kt";
 
         v.withCodeSource(codeSourceForClasses(springMarker, pluginMarker, clientCode))
-                .messages()
+                .issues()
                 .isEmpty();
     }
 }

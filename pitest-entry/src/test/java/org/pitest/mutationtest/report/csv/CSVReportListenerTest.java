@@ -18,7 +18,6 @@ import static org.mockito.Mockito.verify;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.Collections;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -72,7 +71,7 @@ public class CSVReportListenerTest {
   public void shouldOutputNoneWhenNoKillingTestFound() throws IOException {
     final MutationResult mr = new MutationResult(
         MutationTestResultMother.createDetails(), MutationStatusTestPair.notAnalysed(1,
-            DetectionStatus.SURVIVED, Collections.emptyList()));
+            DetectionStatus.SURVIVED));
     this.testee.handleMutationResult(MutationTestResultMother
         .createClassResults(mr));
     final String expected = "file,clazz,mutator,method,42,SURVIVED,none"
